@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>p5.js Bouncing Ball Animation</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Ball properties
+        let x, y;           // Ball position
+        let xSpeed, ySpeed; // Ball velocity
+        let diameter = 50;  // Ball diameter
+
+        function setup() {
+            // Create a canvas that fits nicely in the viewport
+            createCanvas(800, 600);
+
+            // Initialize ball position to center
+            x = width / 2;
+            y = height / 2;
+
+            // Initialize random velocity
+            xSpeed = random(3, 5) * (random() > 0.5 ? 1 : -1);
+            ySpeed = random(3, 5) * (random() > 0.5 ? 1 : -1);
+        }
+
+        function draw() {
+            // Clear the canvas with a light gray background
+            background(240);
+
+            // Update ball position
+            x += xSpeed;
+            y += ySpeed;
+
+            // Check for collision with left and right edges
+            if (x - diameter/2 <= 0 || x + diameter/2 >= width) {
+                xSpeed *= -1; // Reverse horizontal direction
+                // Keep ball within bounds
+                x = constrain(x, diameter/2, width - diameter/2);
+            }
+
+            // Check for collision with top and bottom edges
+            if (y - diameter/2 <= 0 || y + diameter/2 >= height) {
+                ySpeed *= -1; // Reverse vertical direction
+                // Keep ball within bounds
+                y = constrain(y, diameter/2, height - diameter/2);
+            }
+
+            // Draw the ball
+            noStroke();
+            fill(100, 150, 250); // Nice blue color
+            circle(x, y, diameter);
+
+            // Add a subtle shadow effect
+            fill(0, 0, 0, 30);
+            ellipse(x + 3, y + 3, diameter, diameter);
+
+            // Redraw the ball on top
+            fill(100, 150, 250);
+            circle(x, y, diameter);
+
+            // Add a highlight for depth
+            fill(255, 255, 255, 100);
+            ellipse(x - diameter/4, y - diameter/4, diameter/3, diameter/3);
+        }
+    </script>
+</body>
+</html>
